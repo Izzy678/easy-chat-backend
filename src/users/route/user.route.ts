@@ -10,5 +10,5 @@ const userRoutes = Router();
 userRoutes.post('/sign-up',ValidateUserInput(signUpSchema),createUserHandler);
 userRoutes.get('/view-profile',viewUserProfileHandler);
 userRoutes.patch('/update-profile',[requireUser,upload.single('image')],uploadUserProfilePictureHandler);
-userRoutes.get('/get-user/:userId',requireUser,getUser);
+userRoutes.get('/get-user',requireUser,getUser);
 export default userRoutes;
