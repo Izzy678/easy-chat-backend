@@ -76,7 +76,8 @@ export const getUser = async (
   next: NextFunction
 )=>{
  try{
-   const foundUser = findUserById(req.params.userId);
+   const {user} = res.locals.user as TokenDto
+   const foundUser = findUserById(user);
    res.status(HttpStatusCode.SUCCESS).send({
     message:"found user successfully",
     foundUser
