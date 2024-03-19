@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, updateUser, updateUserProfileImage } from "../servies/user.service";
+import { createUser, findUserById, updateUser, updateUserProfileImage } from "../servies/user.service";
 import { HttpStatusCode } from "../../utils/enums/httpStatusCode.enum";
 import { TokenDto } from "../../auth/dto/token.dto";
 import { uploadImage } from "../../file/service/file.service";
@@ -69,3 +69,19 @@ export const updateUserProfileHandler = async (
  }
 };
 
+
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+)=>{
+ try{
+   const foundUser = findUserById(req.params.userId);
+   res.status(HttpStatusCode.SUCCESS).send({
+    message:"found user successfully",
+    foundUser
+   });
+ }catch(error){
+  next(error);
+ }
+};
