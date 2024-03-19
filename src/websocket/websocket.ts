@@ -1,6 +1,12 @@
-import { Socket } from "socket.io";
+import { Server, Socket } from "socket.io";
 import http from 'http';
 
 export async function setupSocketConnection(server:http.Server){
- 
+    const io = new Server(server, {
+        cors: {
+          origin: ['http://localhost:8080']
+        }
+      });
+      //return io instance to listen to the connection
+      return io;
 }
