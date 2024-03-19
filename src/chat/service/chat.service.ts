@@ -10,16 +10,16 @@ export const initiateChat = async (chatDto: CreateChatDTo) => {
     //create chatroom
     const createdChatroom = await chatroomModel.create({ users: chatDto.ids });
     const createdChat = await chatModel.create({
-       message:chatDto.message,
-       chatroom:createdChatroom._id
+      message: chatDto.message,
+      chatroom: createdChatroom._id,
     });
     return createdChat;
   }
   const createdChat = await chatModel.create({
-   chatroom: chatroom.id,
-   message: chatDto.message,
- });
- console.log("createdchat",createdChat);
+    chatroom: chatroom.id,
+    message: chatDto.message,
+  });
+  console.log("createdchat", createdChat);
   return createdChat;
 };
 
