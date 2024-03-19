@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IUser extends Document {
-  _id:string
+  _id: string;
   firstName: string;
   lastName: string;
   userName: string;
@@ -12,11 +12,33 @@ export interface IUser extends Document {
 
 const userSchema = new mongoose.Schema<IUser>(
   {
-    firstName: String,
-    lastName: String,
-    userName: String,
-    email: String,
-    password: String,
+    firstName: {
+      type: String,
+      required: [true, "First name is required"],
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      required: [true, "Last name is required"],
+      trim: true,
+    },
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Please provide a valid email address"],
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Please provide a password"],
+      minlength: [5, "password must be at least 5 characters"],
+    },
     profilePicture: String,
   },
 
