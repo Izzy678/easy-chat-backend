@@ -8,6 +8,7 @@ const TokenMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("req", req)
   try {
     const accessToken = req.cookies.accessToken;
 
