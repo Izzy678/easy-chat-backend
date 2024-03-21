@@ -6,13 +6,30 @@ import {
 } from "../service/chat.service";
 import { SendChatDto, CreateChatDTo } from "../dto/chat.dto";
 import { HttpStatusCode } from "../../utils/enums/httpStatusCode.enum";
+import { io } from "../../app";
+import { string } from "joi";
 
+
+type socketUserId = {
+  userId:string
+  sockedId:string
+}
+const arraysOfConnectedUser:socketUserId[]  = []
 export async function initiateChatHandler(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
+    const tokenData = res.locals.users as TokenDto
+
+    io.on('connection',(socket)=>{
+      arraysOfConnectedUser.push({
+        userId:tokenData.user,
+        sockedId:socket.id
+      });   
+    })
+    
     const createChat = req.body as CreateChatDTo;
     const createdChat = await initiateChat(createChat);
     res

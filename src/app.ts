@@ -12,6 +12,7 @@ import { config } from "./utils/config/environment.config";
 import log from "./utils/function/logger";
 import socket, { Server } from 'socket.io'
 import http from 'http';
+import { setupSocketConnection } from "./websocket/websocket";
 
 const app = express();
 const server = http.createServer(app); // Create an HTTP server using Express
@@ -20,13 +21,17 @@ server.listen(config.port, () => { // Start the server using server.listen()
   log.info(`Server listening on port ${config.port}`);
 });
 
-const io = new Server(server, {
-  cors: {
-    origin: ['http://localhost:8080']
-  }
-});
+export const io =  setupSocketConnection(server);
+
+// const io = new Server(server, {
+//   cors: {
+//     origin: ['http://localhost:8080']
+//   }
+// });
+const userIdSocketIdMapper = {}
 
 io.on('connection', (socket) => {
+  userIdSocketIdMapper['sockedId'] = socket.id;
   console.log(socket.id);
   socket.on('sent-message', (message) => {
     console.log(message);
