@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { TokenDto } from "../../auth/dto/token.dto";
 import {
+  getUserChats,
   getUserChatsForAChatRoom,
   initiateChat,
 } from "../service/chat.service";
@@ -48,6 +49,21 @@ export async function getChatsHandler(
   console.log("fromcontrol", req.params.chatRoomId);
   try {
     const chats = await getUserChatsForAChatRoom(req.params.chatRoomId);
+    res
+      .status(HttpStatusCode.SUCCESS)
+      .send({ message: "chats retrieved successfully", chats });
+  } catch (error) {
+    next(error);
+  }
+}
+export async function getUserConversations(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  console.log("fromcontrol", req.params.chatRoomId);
+  try {
+    const chats = await getUserChats(res.locals.user.user);
     res
       .status(HttpStatusCode.SUCCESS)
       .send({ message: "chats retrieved successfully", chats });

@@ -13,13 +13,14 @@ const TokenMiddleware = async (
     const accessToken = req.cookies.accessToken;
 
     const refreshToken = req.cookies.refreshToken;
-    // console.log(accessToken)
+    console.log("accessToken",accessToken)
     // console.log(refreshToken)
     // console.log("checking server");
     if (!accessToken && !refreshToken) {
       return next();
     }
     const { tokenData,isExpired } = decodeToken(accessToken);
+    console.log("tokenData", tokenData)
     
     if (tokenData) {
       res.locals.user = tokenData;

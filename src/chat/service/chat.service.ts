@@ -3,7 +3,10 @@ import { CreateChatDTo, SendChatDto } from "../dto/chat.dto";
 import { chatModel } from "../model/chat.model";
 import { chatroomModel } from "../model/chatRoom.model";
 
-export const initiateChat = async (chatDto: CreateChatDTo, id: string) => {
+export const initiateChat = async (
+  chatDto: CreateChatDTo,
+  senderId: string
+) => {
   const chatroom = await chatroomModel.findOne({ users: chatDto.ids });
 
   if (!chatroom) {
@@ -18,7 +21,7 @@ export const initiateChat = async (chatDto: CreateChatDTo, id: string) => {
   const createdChat = await chatModel.create({
     chatroom: chatroom.id,
     message: chatDto.message,
-    sender: id,
+    sender: senderId,
   });
   console.log("createdchat", createdChat);
   return createdChat;
@@ -42,4 +45,13 @@ export const getUserChatsForAChatRoom = async (chatroomId: string) => {
   if (foundChats?.length < 0)
     throw new BadRequestException("no chats found for this chat room");
   return foundChats;
+};
+
+export const getUserChats = async (userId: string) => {
+  const userChats = chatroomModel.find({ users: { $in: [userId] } }).populate({
+    path:"users",
+    select:"firstName lastName"
+  })
+  if (!userChats) return;
+  return userChats;
 };
