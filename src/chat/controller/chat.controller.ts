@@ -1,8 +1,9 @@
 import { Response, Request, NextFunction } from "express";
 import { TokenDto } from "../../auth/dto/token.dto";
 import {
+  getUserChats,
   getUserChatsForAChatRoom,
-  initiateChat
+  initiateChat,
 } from "../service/chat.service";
 import { SendChatDto, CreateChatDTo } from "../dto/chat.dto";
 import { HttpStatusCode } from "../../utils/enums/httpStatusCode.enum";
@@ -20,6 +21,7 @@ export async function initiateChatHandler(
   res: Response,
   next: NextFunction
 ) {
+  console.log("id",res.locals.user.user);
   try {
     const tokenData = res.locals.users as TokenDto
 
@@ -31,7 +33,7 @@ export async function initiateChatHandler(
     })
     
     const createChat = req.body as CreateChatDTo;
-    const createdChat = await initiateChat(createChat);
+    const createdChat = await initiateChat(createChat, res.locals.user.user);
     res
       .status(HttpStatusCode.SUCCESS)
       .send({ message: "chat sent successfully", createdChat });
@@ -61,8 +63,24 @@ export async function getChatsHandler(
   res: Response,
   next: NextFunction
 ) {
+  console.log("fromcontrol", req.params.chatRoomId);
   try {
     const chats = await getUserChatsForAChatRoom(req.params.chatRoomId);
+    res
+      .status(HttpStatusCode.SUCCESS)
+      .send({ message: "chats retrieved successfully", chats });
+  } catch (error) {
+    next(error);
+  }
+}
+export async function getUserConversations(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  console.log("fromcontrol", req.params.chatRoomId);
+  try {
+    const chats = await getUserChats(res.locals.user.user);
     res
       .status(HttpStatusCode.SUCCESS)
       .send({ message: "chats retrieved successfully", chats });

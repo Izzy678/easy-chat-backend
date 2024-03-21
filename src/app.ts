@@ -46,7 +46,12 @@ app.get('/',(req,res,next)=>{
 connectToDb();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors()); // Enables Cross-Origin Resource Sharing
+app.use(cors({
+  origin: ["http://localhost:3000"], // Set origin to '*' to allow requests from any origin
+  credentials: true, // Allow cookies and credentials
+}));
+
+// app.use(cors()); // Enables Cross-Origin Resource Sharing
 app.use(helmet()); // Sets various security-related HTTP headers
 app.use(compression()); // Compresses HTTP responses
 app.use(morgan("combined")); // Logs HTTP requests

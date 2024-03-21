@@ -19,7 +19,7 @@ export async function SignInUserHandler(
       httpOnly: true,
       domain: "localhost",
       path: "/",
-      sameSite: "strict",
+      //sameSite: "strict",
       secure: false,
     });
 
@@ -28,7 +28,7 @@ export async function SignInUserHandler(
       httpOnly: true,
       domain: "localhost",
       path: "/",
-      sameSite: "strict",
+      //sameSite: "strict",
       secure: false,
     });
 
