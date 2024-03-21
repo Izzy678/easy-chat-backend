@@ -8,14 +8,14 @@ const TokenMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("req", req)
+
   try {
     const accessToken = req.cookies.accessToken;
 
     const refreshToken = req.cookies.refreshToken;
-    console.log(accessToken)
-    console.log(refreshToken)
-    console.log("checking server");
+    // console.log(accessToken)
+    // console.log(refreshToken)
+    // console.log("checking server");
     if (!accessToken && !refreshToken) {
       return next();
     }

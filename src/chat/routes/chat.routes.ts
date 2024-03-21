@@ -8,5 +8,5 @@ const chatRoutes = Router();
 
 chatRoutes.post('/initiate-chat',[requireUser,ValidateUserInput(initiateChatSchema)],initiateChatHandler);
 //chatRoutes.post('/send-chat',[requireUser,ValidateUserInput(sendChatSchema)],sendChatHandler);
-chatRoutes.get('/get-user-chat/:chatroomId',requireUser,getChatsHandler)
+chatRoutes.get('/get-user-chat/:chatRoomId',requireUser,getChatsHandler)
 export default chatRoutes;
