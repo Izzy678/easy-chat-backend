@@ -10,7 +10,3 @@ export function setupSocketConnection(server:http.Server){
       //return io instance to listen to the connection
       return io;
 }
-
-export const mapUserIDToSocketId = (userId:string, sockedId:string) => {
-  
-}

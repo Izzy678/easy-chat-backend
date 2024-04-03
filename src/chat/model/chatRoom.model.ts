@@ -5,10 +5,10 @@ import mongoose from "mongoose"
   }
 
   const chatroomSchema = new mongoose.Schema({
-    users: {
-      type:Array<mongoose.Schema.Types.ObjectId>,
-      ref:'user'
-    }
+    users: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+  }]
   },
   {
     timestamps:true
@@ -16,3 +16,4 @@ import mongoose from "mongoose"
   )
 
   export const chatroomModel = mongoose.model('chatroom',chatroomSchema);
+  
