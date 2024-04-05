@@ -5,8 +5,9 @@ import {
   getUserChatsForAChatRoom,
   initiateChat,
 } from "../service/chat.service";
-import { SendChatDto, CreateChatDTo } from "../dto/chat.dto";
+import { CreateChatDTo } from "../dto/chat.dto";
 import { HttpStatusCode } from "../../utils/enums/httpStatusCode.enum";
+
 
 export async function initiateChatHandler(
   req: Request,

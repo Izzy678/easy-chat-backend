@@ -1,4 +1,4 @@
-when the client sends a message --> and event should be thrown up like :
+when the client sends a message --> an event should be thrown up like :
 event name
 {
 message -->to be sent

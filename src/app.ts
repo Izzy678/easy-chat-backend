@@ -7,37 +7,15 @@ import compression from "compression";
 import morgan from "morgan";
 import { appErrorHandler } from "./utils/middleware/errorHandler.middleware";
 import TokenMiddleware from "./utils/middleware/token.middleware";
-import connectToDb from "./utils/database/database.config";
+import connectToDb from "./utils/database/database";
 import { config } from "./utils/config/environment.config";
-import log from "./utils/function/logger";
-import socket, { Server } from 'socket.io'
 import http from 'http';
+import { Server } from "socket.io";
 
 const app = express();
-const server = http.createServer(app); // Create an HTTP server using Express
-
-server.listen(config.port, () => { // Start the server using server.listen()
-  log.info(`Server listening on port ${config.port}`);
-});
-
-const io = new Server(server, {
-  cors: {
-    origin: ['http://localhost:8080']
-  }
-});
-
-io.on('connection', (socket) => {
-  console.log(socket.id);
-  socket.on('sent-message', (message) => {
-    console.log(message);
-    io.emit('receive-message', message); // Fix typo in event name
-  });
-});
+const server:http.Server = app.listen(config.port);
 
 
-app.get('/',(req,res,next)=>{
-  res.send("Api is working");
-})
 connectToDb();
 app.use(express.json());
 app.use(cookieParser());
@@ -46,10 +24,59 @@ app.use(cors({
   credentials: true, // Allow cookies and credentials
 }));
 
-// app.use(cors()); // Enables Cross-Origin Resource Sharing
+app.use(cors()); // Enables Cross-Origin Resource Sharing
 app.use(helmet()); // Sets various security-related HTTP headers
 app.use(compression()); // Compresses HTTP responses
 app.use(morgan("combined")); // Logs HTTP requests
 app.use(TokenMiddleware); //always run and deserialize each time a request comes in
 app.use(appRoute); //takes incomming http request and execute it
 app.use(appErrorHandler); //Handle any error that kick in our application
+
+
+app.get('/',(req,res,next)=>{
+  res.send("Api is working");
+});
+
+const io = new Server(server,{
+
+});
+
+//const onlineUsers:Record<string,string> = {};
+//on client connection code :
+/* 
+const socket = io(http://localhost:port,{
+  quert: {
+    userId:"1234567"
+  }
+})
+const socketObj = {
+  userId:string,
+  message:string
+}
+socket.emit('sent-message',socket-object)
+*/
+const onlineUsers = new Map<string, string>();
+
+io.on('connection', (socket) => {
+  const  userId  = socket.handshake.query.userId as string
+  
+  if (!onlineUsers.has(userId)) {
+    onlineUsers.set(userId, socket.id);
+  }
+});
+
+type SentMessageEvent = {
+  message: string;
+  recipientId: string;
+};
+
+io.on('sent-message', (receivedMessage: SentMessageEvent) => {
+  const recipentSocketId = onlineUsers.get(receivedMessage.recipientId);
+
+  if (!recipentSocketId) {
+    // Handle the case where the recipient is offline
+    // (e.g., queue the message for later delivery)
+  } else {
+    io.to(recipentSocketId).emit('received-message', receivedMessage.message);
+  }
+});
