@@ -13,8 +13,8 @@ export async function initiateChatHandler(
   res: Response,
   next: NextFunction
 ) {
-  console.log("id",res.locals.user.user);
   try {
+    console.log(req.body)
     const createChat = req.body as CreateChatDTo;
     const createdChat = await initiateChat(createChat, res.locals.user.user);
     res
@@ -46,7 +46,6 @@ export async function getChatsHandler(
   res: Response,
   next: NextFunction
 ) {
-  console.log("fromcontrol", req.params.chatRoomId);
   try {
     const chats = await getUserChatsForAChatRoom(req.params.chatRoomId);
     res
@@ -61,7 +60,7 @@ export async function getUserConversations(
   res: Response,
   next: NextFunction
 ) {
-  console.log("fromcontrol", req.params.chatRoomId);
+  // console.log("fromcontrol", req.params.chatRoomId);
   try {
     const chats = await getUserChats(res.locals.user.user);
     res

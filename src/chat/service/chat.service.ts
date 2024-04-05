@@ -7,7 +7,8 @@ export const initiateChat = async (
   chatDto: CreateChatDTo,
   senderId: string
 ) => {
-  const chatroom = await chatroomModel.findOne({ users: chatDto.ids });
+  const chatroom = await chatroomModel.findById(chatDto.chatroomId);
+  console.log("services", chatroom)
 
   if (!chatroom) {
     //create chatroom
@@ -23,7 +24,7 @@ export const initiateChat = async (
     message: chatDto.message,
     sender: senderId,
   });
-  console.log("createdchat", createdChat);
+  // console.log("createdchat", createdChat);
   return createdChat;
 };
 
@@ -40,7 +41,7 @@ export const initiateChat = async (
 // };
 
 export const getUserChatsForAChatRoom = async (chatroomId: string) => {
-  console.log("chatId", chatroomId);
+  // console.log("chatId", chatroomId);
   const foundChats = await chatModel.find({ chatroom: chatroomId });
   if (foundChats?.length < 0)
     throw new BadRequestException("no chats found for this chat room");
@@ -49,9 +50,9 @@ export const getUserChatsForAChatRoom = async (chatroomId: string) => {
 
 export const getUserChats = async (userId: string) => {
   const userChats = chatroomModel.find({ users: { $in: [userId] } }).populate({
-    path:"users",
-    select:"firstName lastName"
-  })
+    path: "users",
+    select: "firstName lastName",
+  });
   if (!userChats) return;
   return userChats;
 };
