@@ -15,7 +15,6 @@ export async function initiateChatHandler(
   next: NextFunction
 ) {
   try {
-    console.log(req.body)
     const createChat = req.body as CreateChatDTo;
     const createdChat = await initiateChat(createChat, res.locals.user.user);
     res
@@ -56,7 +55,7 @@ export async function getChatsHandler(
     next(error);
   }
 }
-export async function getUserConversations(
+export async function getUserConversations( 
   req: Request,
   res: Response,
   next: NextFunction

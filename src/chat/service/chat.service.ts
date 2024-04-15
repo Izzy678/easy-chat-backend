@@ -8,7 +8,7 @@ export const initiateChat = async (
   senderId: string
 ) => {
   const chatroom = await chatroomModel.findById(chatDto.chatroomId);
-  console.log("services", chatroom)
+  // console.log("services", chatroom)
 
   if (!chatroom) {
     //create chatroom
@@ -49,10 +49,12 @@ export const getUserChatsForAChatRoom = async (chatroomId: string) => {
 };
 
 export const getUserChats = async (userId: string) => {
-  const userChats = chatroomModel.find({ users: { $in: [userId] } }).populate({
+  
+  const userChats = await  chatroomModel.find({ users: { $in: [userId] } }).populate({
     path: "users",
     select: "firstName lastName",
-  });
+  }).exec()
+ // console.log("chats", userChats)
   if (!userChats) return;
   return userChats;
 };

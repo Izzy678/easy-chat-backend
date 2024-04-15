@@ -4,7 +4,7 @@ import { HttpStatusCode } from "../enums/httpStatusCode.enum";
 const requireUser = (req: Request, res: Response, next: NextFunction) => {
   const user = res.locals.user;
 
-  console.log("user",user)
+  // console.log("user",user)
 
   if (!user) {
     return res
