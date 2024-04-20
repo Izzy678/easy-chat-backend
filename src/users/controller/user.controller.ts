@@ -40,8 +40,6 @@ export const uploadUserProfilePictureHandler = async (
 ) => {
   try {
     const tokenData = res.locals.user as TokenDto;
-    // console.log(tokenData)
-    // console.log(req.file)
     if(!req.file) throw new BadRequestException("provide an image to upload");
     const cloudinaryImagePayload = await uploadImage(req.file);
     const updatedUser = await updateUser({profilePicture:cloudinaryImagePayload.url},tokenData.user)
@@ -68,7 +66,6 @@ export const updateUserProfileHandler = async (
   next(error);
  }
 };
-
 
 export const getUser = async (
   req: Request,
