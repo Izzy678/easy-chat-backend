@@ -20,12 +20,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000", // Set origin to '*' to allow requests from any origin
+    origin: "*", // Set origin to '*' to allow requests from any origin
     credentials: true, // Allow cookies and credentials
   })
 );
-
-app.use(cors()); // Enables Cross-Origin Resource Sharing
 app.use(helmet()); // Sets various security-related HTTP headers
 app.use(compression()); // Compresses HTTP responses
 app.use(morgan("combined")); // Logs HTTP requests
@@ -80,15 +78,15 @@ socket.emit('sent-message',socket-object)
 // });
 
 io.on("connection", (socket) => {
-  console.log("user connected to", socket.id);
+ // console.log("user connected to", socket.id);
 
-  socket.on("joinRoom", (data) =>{
-    console.log(data)
-    socket.join(data)
-  })
+  socket.on("joinRoom", (data) => {
+   // console.log(data);
+    socket.join(data);
+  });
 
-  socket.on("sendMessage", (data) =>{
-    console.log(data)
-    socket.to(data.room).emit("receivedMessage", data)
-  })
+  socket.on("sendMessage", (data) => {
+   // console.log(data);
+    socket.to(data.room).emit("receivedMessage", data);
+  });
 });

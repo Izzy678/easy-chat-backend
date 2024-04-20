@@ -10,28 +10,23 @@ export async function SignInUserHandler(
 ) {
   try {
     const user = await signIn(req.body);
-    
     //generate token
     const { accessToken, refreshToken } = generateTokens(user);
-
     res.cookie("accessToken", accessToken, {
       maxAge: 900000, // 15 mins
       httpOnly: true,
-      domain: "localhost",
+      // No need to specify domain when using default Elastic Beanstalk domain
       path: "/",
-      //sameSite: "strict",
-      secure: false,
+      secure: false, // Set to true if using HTTPS
     });
-
+    
     res.cookie("refreshToken", refreshToken, {
-      maxAge: 30 * 24 * 60 * 60, //  30 days * 24 hours * 60 minutes * 60 seconds)
+      maxAge: 30 * 24 * 60 * 60, // 30 days
       httpOnly: true,
-      domain: "localhost",
+      // No need to specify domain when using default Elastic Beanstalk domain
       path: "/",
-      //sameSite: "strict",
-      secure: false,
+      secure: false, // Set to true if using HTTPS
     });
-
     res
       .status(HttpStatusCode.SUCCESS)
       .json({ user, accessToken, message: "sign in successfully" });

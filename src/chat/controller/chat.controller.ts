@@ -1,5 +1,4 @@
 import { Response, Request, NextFunction } from "express";
-import { TokenDto } from "../../auth/dto/token.dto";
 import {
   getUserChats,
   getUserChatsForAChatRoom,
