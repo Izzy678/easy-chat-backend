@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start:dev":"nodemon src/app.ts",
+    "start:dev": "nodemon src/app.ts",
     "start:prod": "yarn build && node dist/app.js"
   },
   "devDependencies": {
@@ -17,14 +17,14 @@
     "@types/helmet": "^4.0.0",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/lodash": "^4.17.0",
     "@types/morgan": "^1.9.9",
     "@types/multer": "^1.4.11",
     "@types/pg": "^8.11.2",
     "@types/pino": "^7.0.5",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.3",
     "nodemon": "^3.1.0",
-    "@types/lodash": "^4.17.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -38,7 +38,6 @@
     "helmet": "^7.1.0",
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
-    "jwt": "^0.2.0",
     "lodash": "^4.17.21",
     "mongoose": "^8.2.2",
     "morgan": "^1.10.0",
