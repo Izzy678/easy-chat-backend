@@ -11,9 +11,12 @@ import connectToDb from "./utils/database/database";
 import { config } from "./utils/config/environment.config";
 import http from "http";
 import { Server } from "socket.io";
+import log from "./utils/function/logger";
 
 const app = express();
-const server: http.Server = app.listen(config.port);
+const server: http.Server = app.listen(config.port,()=>{
+  log.info(`app listening on port ${config.port}`)
+})
 
 connectToDb();
 app.use(express.json());
