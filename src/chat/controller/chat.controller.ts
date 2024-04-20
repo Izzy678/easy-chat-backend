@@ -7,7 +7,6 @@ import {
 import { CreateChatDTo } from "../dto/chat.dto";
 import { HttpStatusCode } from "../../utils/enums/httpStatusCode.enum";
 
-
 export async function initiateChatHandler(
   req: Request,
   res: Response,
@@ -54,7 +53,7 @@ export async function getChatsHandler(
     next(error);
   }
 }
-export async function getUserConversations( 
+export async function getUserConversations(
   req: Request,
   res: Response,
   next: NextFunction
