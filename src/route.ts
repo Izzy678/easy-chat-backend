@@ -12,5 +12,5 @@ appRoute.use('/api/auth',authRouter);
 appRoute.use('/api/users',userRoutes);
 appRoute.use('/api/file',fileRoutes);
 appRoute.use('/api/chat',chatRoutes);
-appRoute.use('/friend',requireUser,friendsRoutes)
+appRoute.use('/api/friend',requireUser,friendsRoutes)
 export default appRoute;

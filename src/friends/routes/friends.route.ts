@@ -5,6 +5,7 @@ import {
   deleteFriendRequestHandler,
   getAllPendingFriendRequestHandler,
 } from "../controller/friends.controller";
+import requireUser from "../../utils/middleware/requireUser.middleware";
 
 export const friendsRoutes = express();
 
@@ -18,6 +19,6 @@ friendsRoutes.delete(
   deleteFriendRequestHandler
 );
 friendsRoutes.get(
-  "get-all-pending-request/:userId",
+  "/get-all-pending-request",
   getAllPendingFriendRequestHandler
 );

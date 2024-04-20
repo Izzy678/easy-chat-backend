@@ -12,6 +12,7 @@ import { config } from "./utils/config/environment.config";
 import http from "http";
 import { Server } from "socket.io";
 import log from "./utils/function/logger";
+import { deserializeToken } from "./utils/middleware/deserializeToken.middleware";
 
 const app = express();
 const server: http.Server = app.listen(config.port,()=>{
@@ -30,7 +31,7 @@ app.use(
 app.use(helmet()); // Sets various security-related HTTP headers
 app.use(compression()); // Compresses HTTP responses
 app.use(morgan("combined")); // Logs HTTP requests
-app.use(TokenMiddleware); //always run and deserialize each time a request comes in
+app.use(deserializeToken); //always run and deserialize each time a request comes in
 app.use(appRoute); //takes incomming http request and execute it
 app.use(appErrorHandler); //Handle any error that kick in our application
 

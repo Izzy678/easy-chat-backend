@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUserHandler, getUser, updateUserProfileHandler, uploadUserProfilePictureHandler, viewUserProfileHandler } from "../controller/user.controller";
+import { createUserHandler, getUser, getAllUsersHandler, uploadUserProfilePictureHandler, viewUserProfileHandler } from "../controller/user.controller";
 import { ValidateUserInput } from "../../utils/middleware/validation.middleware";
 import { signUpSchema, updateUserSchema } from "../validator/user.validator";
 import requireUser from "../../utils/middleware/requireUser.middleware";
@@ -11,4 +11,5 @@ userRoutes.post('/sign-up',ValidateUserInput(signUpSchema),createUserHandler);
 userRoutes.get('/view-profile',viewUserProfileHandler);
 userRoutes.patch('/update-profile',[requireUser,upload.single('image')],uploadUserProfilePictureHandler);
 userRoutes.get('/getMe',requireUser,getUser);
+userRoutes.get('/get-all-users',requireUser,getAllUsersHandler)
 export default userRoutes;

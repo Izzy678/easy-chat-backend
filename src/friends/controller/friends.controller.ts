@@ -14,7 +14,6 @@ export async function SendFriendRequestHandler(
   next: NextFunction
 ) {
   try {
-    console.log('*')
     const senderId = (res.locals.user as TokenDto).user;
     const reciverId = req.params.recieverId;
     const data = await sendFriendRequest(senderId, reciverId);
