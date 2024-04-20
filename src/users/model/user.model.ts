@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ProfileEnum } from "../../utils/enums/profile.enum";
 
 export interface IUser extends Document {
   _id:string
@@ -8,6 +9,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   profilePicture: string;
+  about:string,
+  profile:ProfileEnum
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -18,6 +21,11 @@ const userSchema = new mongoose.Schema<IUser>(
     email: String,
     password: String,
     profilePicture: String,
+    about:String,
+    profile:{
+      type:String,
+      enum:Object.values(ProfileEnum)
+    }
   },
 
   {

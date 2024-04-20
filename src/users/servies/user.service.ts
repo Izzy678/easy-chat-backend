@@ -7,6 +7,7 @@ import {
 } from "../../utils/error/http.error.";
 import { TokenDto } from "../../auth/dto/token.dto";
 
+
 export async function findUserByEmail(email: string) {
   const foundUser = await userModel.findOne({ email });
   return foundUser;
@@ -37,7 +38,10 @@ export async function updateUser(
   updatedUserDto: UpdateUserDto,
   userId: string
 ): Promise<IUser> {
-  const updatedUser = await userModel.findOneAndUpdate({ _id: userId }, updatedUserDto);
+  const updatedUser = await userModel.findOneAndUpdate(
+    { _id: userId },
+    updatedUserDto
+  );
   if (!updatedUser) throw new BadRequestException("user not found");
   return updatedUser;
 }
@@ -50,6 +54,15 @@ export async function updateUserProfileImage(tokenData: TokenDto, url: string) {
   if (!updatedUser) throw new NotFoundException("user not found");
   return updatedUser;
 }
+
+export async function getAllUsers(tokenData: TokenDto) {
+  //implement pagination
+  const users = await userModel
+    .find({ _id: { $ne: tokenData.user } })
+    .select(["-createdAt", "-updatedAt", "-password"]);
+  return users;
+}
+
 
 // export async function validateUserPassword(email: string, password: string) {
 //   const foundUser = await findUserByEmail(email);
